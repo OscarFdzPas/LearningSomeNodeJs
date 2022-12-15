@@ -6,23 +6,23 @@ const Task = require('./models/task-model');
 const app = express();
 const port = 3000;
 
-app.post('/users', (req, res) => {
-    const user = new User(req.body);
-    
-    user.save().then(() => {
-        res.status(201).send(user);
-    }).catch((error) => {
-        res.status(400).send(error);
-    });
-});
+app.use(express.json())
+app.use(userRouter)
+app.use(taskRouter)
 
-app.post('/tasks', (req, res) => {
-    const user = new Task(req.body);
-    
-    user.save().then(() => {
-        res.status(201).send(task);
-    }).catch((error) => {
-        res.status(400).send(error);
-    });
-});
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+const bcrypt = require('bcryptjs')
+
+const myFunction = async () => {
+    const password = 'Red12345!'
+    const hashedPassword = await bcrypt.hash(password, 8)
+
+    console.log(password)
+    console.log(hashedPassword)
+
+    const isMatch = await bcrypt.compare('red12345!', hashedPassword)
+    console.log(isMatch)
+}
+
+myFunction()
